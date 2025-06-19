@@ -444,7 +444,7 @@ Sread_readline(void *handle, char *buf, size_t size)
 #ifdef RL_NO_REENTRANT
     notty:
 #endif
-    { PL_dispatch(fd, PL_DISPATCH_WAIT);
+    { PL_dispatch(Suser_input, PL_DISPATCH_WAIT);
       rval = read(fd, buf, size);
       if ( rval > 0 && buf[rval-1] == '\n' )
 	PL_prompt_next(fd);
@@ -465,7 +465,7 @@ Sread_readline(void *handle, char *buf, size_t size)
 #endif
 
 #ifdef HAVE_RL_EVENT_HOOK
-      if ( PL_dispatch(0, PL_DISPATCH_INSTALLED) )
+      if ( PL_dispatch(Suser_input, PL_DISPATCH_INSTALLED) )
 	rl_event_hook = event_hook;
       else
 	rl_event_hook = NULL;
@@ -642,4 +642,3 @@ install_readline4pl(void)
   PRED("rl_read_history",   1, pl_rl_read_history,   0);
   PRED("rl_wrap",           0, pl_rl_wrap,           0);
 }
-
