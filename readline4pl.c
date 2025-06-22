@@ -447,7 +447,7 @@ Sread_readline(void *handle, char *buf, size_t size)
     { PL_dispatch(Suser_input, PL_DISPATCH_WAIT);
       rval = read(fd, buf, size);
       if ( rval > 0 && buf[rval-1] == '\n' )
-	PL_prompt_next(fd);
+	PL_prompt_next(Suser_input);
 
       break;
     }
@@ -471,7 +471,7 @@ Sread_readline(void *handle, char *buf, size_t size)
 	rl_event_hook = NULL;
 #endif
 
-      prompt = PL_prompt_string(fd);
+      prompt = PL_prompt_string(Suser_input);
       if ( prompt )
 	PL_add_to_protocol(prompt, strlen(prompt));
 
